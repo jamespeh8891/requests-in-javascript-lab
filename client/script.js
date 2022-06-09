@@ -22,6 +22,11 @@ const sayHelloButton = document.querySelector('#say-hello-button')
 
 // CODE HERE
 
+const changeColor = (event) => {
+    event.target.style.backgroundColor = "black";
+    event.target.style.color = "white";
+}
+sayHelloButton.addEventListener("mouseover", changeColor);
 
 // PROBLEM 3
 /*
@@ -34,7 +39,12 @@ const sayHelloButton = document.querySelector('#say-hello-button')
 
 // CODE HERE
 
+const changeColorBack = (event) => {
+    event.target.style.backgroundColor = "";
+    event.target.style.color = "";
 
+}
+sayHelloButton.addEventListener("mouseout", changeColorBack);
 // PROBLEM 4
 /*
     Now lets see if we can make a request to our server when we click the button
@@ -55,6 +65,7 @@ const sayHello = () => {
 
 // CODE HERE
 
+sayHelloButton.addEventListener("click", sayHello);
 
 // PROBLEM 5 
 /*
@@ -68,10 +79,20 @@ const sayHello = () => {
 */ 
 
 const ohMy = () => {
-    // YOUR CODE HERE
-}
+    axios.get('http://localhost:3000/animals')
+    .then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            let newP = document.createElement('p')
+            newP.textContent = res.data[i]
+            document.querySelector('body').appendChild(newP)
+        }
 
-document.getElementById('animals-button').addEventListener('click', ohMy)
+    })
+    .catch(err => alert(err))
+
+}
+let animalsBtn = document.getElementById('animals-button')
+animalsBtn.addEventListener('click', ohMy)
 
 
 // PROBLEM 6 
@@ -87,9 +108,17 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
     We'll be updating this function in the next problem.
 */
 
+
 const repeatMyParam = () => {
-    //YOUR CODE HERE
+    let myResetText = document.getElementById("repeat-text")
+    myResetText.style.display = 'block'
+
+    axios.get('http://localhost:3000/repeat/Hello')
+    .then(res => myResetText.textContent = res.data)
+    .catch(err => {alert(err)})
 }
+let repeatBtn = document.getElementById('repeat-button');
+repeatBtn.addEventListener('click', repeatMyParam)
 
 // PROBLEM 7
 /*
@@ -113,6 +142,15 @@ const repeatMyParam = () => {
 
 // CODE HERE
 
+const myQuery = () => {
+    axios.get('http://localhost:3000/query-test?animal=lions')
+    .then(res =>console.log(res.data))
+    .catch(err => {alert(err)})
+}
+
+let queryBtn = document.getElementById("query-button")
+
+queryBtn.addEventListener("click", myQuery)
 
 
 ////////////////
