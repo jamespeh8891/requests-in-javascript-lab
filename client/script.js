@@ -203,3 +203,29 @@ queryBtn.addEventListener("click", myQuery)
 */
 
 // CODE HERE 
+
+let foodContainer = document.createElement("div")
+
+function clearFood() {
+    foodContainer.innerHTML = ``
+}
+
+const createFood = (event) => {
+    event.preventDefault()
+    let foodInput = document.getElementById("food-input")
+    let body = { newFood: foodInput.value }
+    axios.post('http://localhost:3000/food', body)
+        .then(res => {
+            clearFood()
+            // let foodContainer = document.createElement("div")
+            for (let i = 0; i < res.data.length; i++) {
+                let newP = document.createElement('p')
+                newP.textContent = res.data[i]
+                foodContainer.appendChild(newP)
+            }
+            document.querySelector("body").appendChild(foodContainer)
+        })
+        .catch(err => { alert(err) })
+}
+
+document.getElementById("food-form").addEventListener("submit", createFood)
